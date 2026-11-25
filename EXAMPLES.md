@@ -453,45 +453,49 @@ Start with step 1?
 
 ### Example 3: Test-First Verification
 
-**User Request:** "The sorting breaks when there are duplicate scores"
+**Requirement:** Sort by descending score. Break ties by name in ascending order.
 
-**❌ What LLMs Do (Fix Without Reproducing)**
+1. Reproduce → the test fails because Bob appears before Alice.
+2. Fix only the sort key → the same test passes.
+3. Check the full ordering → scores still descend, and ties follow name order.
 
-```python
-# Immediately changes sort logic without confirming the bug
-def sort_scores(scores):
-    return sorted(scores, key=lambda x: (-x['score'], x['name']))
-```
-
-**✅ What Should Happen (Reproduce First)**
+Save the existing implementation as `scores.py`:
 
 ```python
-# 1. First, write a test that reproduces the issue
-def test_sort_with_duplicate_scores():
-    """Test sorting when multiple items have same score."""
-    scores = [
-        {'name': 'Alice', 'score': 100},
-        {'name': 'Bob', 'score': 100},
-        {'name': 'Charlie', 'score': 90},
-    ]
-    
-    result = sort_scores(scores)
-    
-    # The bug: order is non-deterministic for duplicates
-    # Run this test multiple times, it should be consistent
-    assert result[0]['score'] == 100
-    assert result[1]['score'] == 100
-    assert result[2]['score'] == 90
-
-# Verify: Run test 10 times → fails with inconsistent ordering
-
-# 2. Now fix with stable sort
 def sort_scores(scores):
-    """Sort by score descending, then name ascending for ties."""
-    return sorted(scores, key=lambda x: (-x['score'], x['name']))
-
-# Verify: Test passes consistently
+    return sorted(scores, key=lambda row: -row["score"])
 ```
+
+Save the regression test as `test_scores.py`:
+
+```python
+import unittest
+
+from scores import sort_scores
+
+
+class SortScoresTest(unittest.TestCase):
+    def test_sorts_by_score_then_name(self):
+        scores = [
+            {"name": "Bob", "score": 100},
+            {"name": "Charlie", "score": 90},
+            {"name": "Alice", "score": 100},
+        ]
+        result = sort_scores(scores)
+        self.assertEqual(
+            [(row["name"], row["score"]) for row in result],
+            [("Alice", 100), ("Bob", 100), ("Charlie", 90)],
+        )
+```
+
+Run `python3 -m unittest test_scores`. It fails because the score-only sort preserves Bob’s position before Alice. In `scores.py`, change only the sort key:
+
+```python
+def sort_scores(scores):
+    return sorted(scores, key=lambda row: (-row["score"], row["name"]))
+```
+
+Run `python3 -m unittest test_scores` again. The unchanged regression test passes.
 
 ---
 
