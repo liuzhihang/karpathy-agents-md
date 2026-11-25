@@ -50,7 +50,7 @@ fi
 
 source_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 project=$(pwd -P)
-if [[ "$project" == "/" || "$project" == "$HOME" ]]; then
+if [[ "$project" == "/" || "$project" -ef "${HOME:-}" ]]; then
   say 'Run this from a project directory, not your home directory or /.' '请在项目目录运行，不要在家目录或 / 下运行。' >&2
   exit 1
 fi
