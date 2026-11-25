@@ -23,5 +23,5 @@ done
   cd "$tmp/linked-home/project"
   HOME="$tmp/linked-home" bash "$repo/install.sh" --lang en --type skill --agent claude-code
 )
-cmp "$repo/skills/en/karpathy-coding-guidelines/SKILL.md" "$tmp/home/project/.claude/skills/karpathy-coding-guidelines/SKILL.md"
+cmp "$repo/skills/en/karpathy-guidelines/SKILL.md" "$tmp/home/project/.claude/skills/karpathy-guidelines/SKILL.md"
 printf '%s\n' 'Home-directory guard checks passed.'

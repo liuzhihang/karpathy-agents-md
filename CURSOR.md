@@ -16,4 +16,4 @@ This repository retains the upstream **Cursor project rule**. The fork’s bilin
 
 ## Agent Skills
 
-The revised Skill is available in [English](skills/en/karpathy-coding-guidelines/SKILL.md) and [Simplified Chinese](skills/zh-CN/karpathy-coding-guidelines/SKILL.md). The fork does not distribute a Claude Code marketplace plugin. See the [README](README.md) for supported installation options.
+The revised Skill is available in [English](skills/en/karpathy-guidelines/SKILL.md) and [Simplified Chinese](skills/zh-CN/karpathy-guidelines/SKILL.md). The fork does not distribute a Claude Code marketplace plugin. See the [README](README.md) for supported installation options.

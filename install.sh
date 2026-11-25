@@ -70,14 +70,14 @@ if [[ "$type" == agents ]]; then
   fi
 else
   if [[ "$agent" == codex ]]; then client_dir='.agents'; else client_dir='.claude'; fi
-  name='karpathy-coding-guidelines'
+  name='karpathy-guidelines'
   root="$project/$client_dir/skills"
   if [[ -L "$project/$client_dir" || -L "$root" ]]; then
     say 'The skill destination is symlinked. Nothing changed.' 'Skill 的目标路径含符号链接，未修改。' >&2
     exit 1
   fi
-  if exists "$root/$name" || exists "$root/$name-zh-cn"; then
-    say 'This skill or its older Chinese installation already exists. Nothing changed. Review it before switching the language.' '已安装此 Skill 或旧版中文 Skill，未修改。切换语言前请先对比。' >&2
+  if exists "$root/$name" || exists "$root/karpathy-coding-guidelines" || exists "$root/karpathy-coding-guidelines-zh-cn"; then
+    say 'This Skill or an older copy already exists. Nothing changed. Review it before switching the language.' '已安装此 Skill 或旧版副本，未修改。切换语言前请先对比。' >&2
     exit 1
   fi
   src="$source_dir/skills/$lang/$name/SKILL.md"

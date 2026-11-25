@@ -10,7 +10,7 @@ Use a disposable project and record the client, version, model, and installed la
 
 ## 2. Compare the same tasks
 
-Run four conditions: no guidance from this project, AGENTS.md only, Skill only, and both. Invoke the Skill explicitly in the main comparison to measure what happens when it is used. Use one language per run. Separately run a few tasks without explicit invocation to measure appropriate automatic use and false triggers on trivial tasks.
+For the installation comparison, run four conditions: no guidance from this project, AGENTS.md only, Skill only, and both. To isolate the effect of the fork’s changes, compare its Skill with the upstream Skill pinned to a commit, using the same explicit invocation in separate clean projects. Invoke the Skill explicitly in the main comparison to measure what happens when it is used. Use one language per run. Separately run a few tasks without explicit invocation to measure appropriate automatic use and false triggers on trivial tasks.
 
 Keep snapshots, prompts, clients, model versions, permissions, tools, and budgets fixed. Reset between runs and shuffle their order. Start with six tasks and two repeats for each condition, for 48 runs total, to test the cases and rubric. Expand the task set before publishing conclusions. Report Codex and Claude Code separately; compare languages in a separate experiment without changing the client.
 

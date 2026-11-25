@@ -4,15 +4,15 @@ English · [简体中文](README.zh-CN.md)
 
 Concise AI coding guidelines distilled from two posts by Andrej Karpathy, building on the approach of Multica's Karpathy Guidelines. Available as `AGENTS.md` or an Agent Skill, in English and Simplified Chinese.
 
-`AGENTS.md` is the short baseline. A Skill is the on-demand workflow, with examples that turn requests into verifiable outcomes. Start with one format and one language.
+`AGENTS.md` and the Skill share the same rules, examples, and step-by-step verification template. Choose always-on project guidance or an on-demand Skill. Start with one format and one language. See [worked examples](EXAMPLES.md) for a complete verification loop.
 
 - **Choose AGENTS.md** for a new team project or rules that should apply to every coding task.
 - **Choose the Skill** if the project already has good rules, or if you want the workflow only for non-trivial changes and reviews. Run it explicitly when testing it.
 
 We do not recommend installing both by default. See the [evaluation plan](EVALUATION.md). We have checked installation; we have not measured an improvement in coding outcomes.
 
-- **English:** [AGENTS.md](en/AGENTS.md) · [Skill](skills/en/karpathy-coding-guidelines/SKILL.md)
-- **简体中文:** [AGENTS.md](zh-CN/AGENTS.md) · [Skill](skills/zh-CN/karpathy-coding-guidelines/SKILL.md)
+- **English:** [AGENTS.md](en/AGENTS.md) · [Skill](skills/en/karpathy-guidelines/SKILL.md)
+- **简体中文:** [AGENTS.md](zh-CN/AGENTS.md) · [Skill](skills/zh-CN/karpathy-guidelines/SKILL.md)
 
 ## Install with a prompt
 
@@ -30,7 +30,7 @@ Use the Karpathy Agents.md package I have provided, or get the templates from ht
 
 For AGENTS.md: create it if absent, or merge only missing guidance. Preserve project commands, conventions, and existing edits. Ask before resolving a material conflict. If a Codex AGENTS.override.md is active, report it rather than assuming the base file will load. For Claude Code, account for existing CLAUDE.md instructions and client version; if an import would be needed, show the proposed change before editing CLAUDE.md.
 
-For Skill: select the source from skills/en/karpathy-coding-guidelines/ or skills/zh-CN/karpathy-coding-guidelines/. Both install as karpathy-coding-guidelines under .agents/skills/ for Codex or .claude/skills/ for Claude Code. Check for the installed name and any older language-suffixed copy. Compare and ask before replacing or migrating; do not install both.
+For Skill: select the source from skills/en/karpathy-guidelines/ or skills/zh-CN/karpathy-guidelines/. Both install as karpathy-guidelines under .agents/skills/ for Codex or .claude/skills/ for Claude Code. Check for the installed name and older copies named karpathy-coding-guidelines or karpathy-coding-guidelines-zh-cn. Compare and ask before replacing or migrating; do not install both.
 
 Do not change global configuration, install both variants, commit, or push. Report the changed paths and what you verified. If active discovery is unverified, say so and tell me how to check.
 ```
@@ -50,14 +50,14 @@ bash "/path/to/karpathy-agents-md/install.sh" --lang zh-CN --type skill --agent 
 ```
 
 - Languages: `en`, `zh-CN`. Formats: `agents`, `skill`. Clients: `codex`, `claude-code`.
-- The script installs local files only. It does not fetch code, edit global settings, or overwrite an existing `AGENTS.md`, override, or Skill. Both languages install as `karpathy-coding-guidelines`. To switch languages, use the prompt to compare the installed copy and review the replacement.
+- The script installs local files only. It does not fetch code, edit global settings, or overwrite an existing `AGENTS.md`, override, or Skill. Both languages install as `karpathy-guidelines`. To switch languages, use the prompt to compare the installed copy and review the replacement.
 - **Codex:** See [instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md) and [Skill locations](https://learn.chatgpt.com/docs/build-skills).
 - **Claude Code:** Direct `AGENTS.md` loading requires v2.1.277 or later and depends on project instructions. Use `/memory` to check on supported versions. If the file isn't loaded, an existing project `CLAUDE.md` can import it with `@AGENTS.md`. The script leaves `CLAUDE.md` untouched. See [Claude Code instructions](https://code.claude.com/docs/en/memory#agentsmd) and [Skills](https://code.claude.com/docs/en/skills).
 
 ## Credits
 
 - [Andrej Karpathy on coding with Claude](https://x.com/karpathy/status/2015883857489522876): surface assumptions, keep changes small, and give agents verifiable outcomes.
-- [Andrej Karpathy on understanding model output](https://x.com/karpathy/status/2105819303471976479): choose the clearest format for the evidence.
+- [Andrej Karpathy on understanding model output](https://x.com/karpathy/status/2105819303471976479): use text by default, diagrams for relationships, HTML for exploring states, and video when timing matters. A demo is not verification.
 - [Multica's Karpathy Guidelines](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md): the four-principle structure and the short, example-driven format.
 
-Independently maintained. Not an official project of Andrej Karpathy or Multica.
+Independently maintained. Not an official project of Andrej Karpathy or Multica. The Skill retains the upstream MIT declaration.
