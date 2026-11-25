@@ -1,171 +1,63 @@
-# Karpathy-Inspired Claude Code Guidelines
+# Karpathy Agents.md
 
-> Check out my new project [Multica](https://github.com/multica-ai/multica) — an open-source platform for running and managing coding agents with reusable skills.
->
-> Follow me on X: [https://x.com/jiayuan_jy](https://x.com/jiayuan_jy)
+English · [简体中文](README.zh-CN.md)
 
-A single `CLAUDE.md` file to improve Claude Code behavior, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+Concise AI coding guidelines distilled from two posts by Andrej Karpathy, building on the approach of Multica's Karpathy Guidelines. Available as `AGENTS.md` or an Agent Skill, in English and Simplified Chinese.
 
-English | [简体中文](./README.zh.md)
+`AGENTS.md` is the short baseline. A Skill is the on-demand workflow, with examples that turn requests into verifiable outcomes. Start with one format and one language.
 
-## The Problems
+- **Choose AGENTS.md** for a new team project or rules that should apply to every coding task.
+- **Choose the Skill** if the project already has good rules, or if you want the workflow only for non-trivial changes and reviews. Run it explicitly when testing it.
 
-From Andrej's post:
+We do not recommend installing both by default. See the [evaluation plan](EVALUATION.md). We have checked installation; we have not measured an improvement in coding outcomes.
 
-> "The models make wrong assumptions on your behalf and just run along with them without checking. They don't manage their confusion, don't seek clarifications, don't surface inconsistencies, don't present tradeoffs, don't push back when they should."
+- **English:** [AGENTS.md](en/AGENTS.md) · [Skill](skills/en/karpathy-coding-guidelines/SKILL.md)
+- **简体中文:** [AGENTS.md](zh-CN/AGENTS.md) · [Skill](skills/zh-CN/karpathy-coding-guidelines/SKILL.md)
 
-> "They really like to overcomplicate code and APIs, bloat abstractions, don't clean up dead code... implement a bloated construction over 1000 lines when 100 would do."
+## Install with a prompt
 
-> "They still sometimes change/remove comments and code they don't sufficiently understand as side effects, even if orthogonal to the task."
+Open your target project in Codex or Claude Code and paste the prompt below. Make the extracted package available to the agent first, or give it an accessible repository or release link when asked. No edits to the prompt are needed.
 
-## The Solution
+```text
+Install Karpathy Agents.md into this project.
 
-Four principles in one file that directly address these issues:
+Before editing, ask me in one message for any choices not already clear:
+1. Install AGENTS.md or Skill?
+2. Target Codex or Claude Code? Skip this question only if the client is known.
+3. Use English (default) or Simplified Chinese?
 
-| Principle | Addresses |
-|-----------|-----------|
-| **Think Before Coding** | Wrong assumptions, hidden confusion, missing tradeoffs |
-| **Simplicity First** | Overcomplication, bloated abstractions |
-| **Surgical Changes** | Orthogonal edits, touching code you shouldn't |
-| **Goal-Driven Execution** | Leverage through tests-first, verifiable success criteria |
+Use the Karpathy Agents.md package I have provided, or get the templates from https://github.com/liuzhihang/karpathy-agents-md. If they are unavailable, ask for a checkout or extracted package path. Read the selected template and applicable project rules before editing. Install into the project root, not my home directory.
 
-## The Four Principles in Detail
+For AGENTS.md: create it if absent, or merge only missing guidance. Preserve project commands, conventions, and existing edits. Ask before resolving a material conflict. If a Codex AGENTS.override.md is active, report it rather than assuming the base file will load. For Claude Code, account for existing CLAUDE.md instructions and client version; if an import would be needed, show the proposed change before editing CLAUDE.md.
 
-### 1. Think Before Coding
+For Skill: select the source from skills/en/karpathy-coding-guidelines/ or skills/zh-CN/karpathy-coding-guidelines/. Both install as karpathy-coding-guidelines under .agents/skills/ for Codex or .claude/skills/ for Claude Code. Check for the installed name and any older language-suffixed copy. Compare and ask before replacing or migrating; do not install both.
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-
-LLMs often pick an interpretation silently and run with it. This principle forces explicit reasoning:
-
-- **State assumptions explicitly** — If uncertain, ask rather than guess
-- **Present multiple interpretations** — Don't pick silently when ambiguity exists
-- **Push back when warranted** — If a simpler approach exists, say so
-- **Stop when confused** — Name what's unclear and ask for clarification
-
-### 2. Simplicity First
-
-**Minimum code that solves the problem. Nothing speculative.**
-
-Combat the tendency toward overengineering:
-
-- No features beyond what was asked
-- No abstractions for single-use code
-- No "flexibility" or "configurability" that wasn't requested
-- No error handling for impossible scenarios
-- If 200 lines could be 50, rewrite it
-
-**The test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
-
-### 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-
-- Don't "improve" adjacent code, comments, or formatting
-- Don't refactor things that aren't broken
-- Match existing style, even if you'd do it differently
-- If you notice unrelated dead code, mention it — don't delete it
-
-When your changes create orphans:
-
-- Remove imports/variables/functions that YOUR changes made unused
-- Don't remove pre-existing dead code unless asked
-
-**The test:** Every changed line should trace directly to the user's request.
-
-### 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform imperative tasks into verifiable goals:
-
-| Instead of... | Transform to... |
-|--------------|-----------------|
-| "Add validation" | "Write tests for invalid inputs, then make them pass" |
-| "Fix the bug" | "Write a test that reproduces it, then make it pass" |
-| "Refactor X" | "Ensure tests pass before and after" |
-
-For multi-step tasks, state a brief plan:
-
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
+Do not change global configuration, install both variants, commit, or push. Report the changed paths and what you verified. If active discovery is unverified, say so and tell me how to check.
 ```
 
-Strong success criteria let the LLM loop independently. Weak criteria ("make it work") require constant clarification.
+## Install with a command
 
-## Install
+Clone this repository or download and extract its source ZIP. From the target project root, run:
 
-**Option A: Claude Code Plugin (recommended)**
-
-From within Claude Code, first add the marketplace:
-```
-/plugin marketplace add forrestchang/andrej-karpathy-skills
-```
-
-Then install the plugin:
-```
-/plugin install andrej-karpathy-skills@karpathy-skills
-```
-
-This installs the guidelines as a Claude Code plugin, making the skill available across all your projects.
-
-**Option B: CLAUDE.md (per-project)**
-
-New project:
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
+bash "/path/to/karpathy-agents-md/install.sh"
 ```
 
-Existing project (append):
+The menu asks for language, format, and client. It defaults to English if you press Enter at the language menu. To skip all menus, pass all three options:
+
 ```bash
-echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
+bash "/path/to/karpathy-agents-md/install.sh" --lang zh-CN --type skill --agent codex
 ```
 
-## Using with Cursor
+- Languages: `en`, `zh-CN`. Formats: `agents`, `skill`. Clients: `codex`, `claude-code`.
+- The script installs local files only. It does not fetch code, edit global settings, or overwrite an existing `AGENTS.md`, override, or Skill. Both languages install as `karpathy-coding-guidelines`. To switch languages, use the prompt to compare the installed copy and review the replacement.
+- **Codex:** See [instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md) and [Skill locations](https://learn.chatgpt.com/docs/build-skills).
+- **Claude Code:** Direct `AGENTS.md` loading requires v2.1.277 or later and depends on project instructions. Use `/memory` to check on supported versions. If the file isn't loaded, an existing project `CLAUDE.md` can import it with `@AGENTS.md`. The script leaves `CLAUDE.md` untouched. See [Claude Code instructions](https://code.claude.com/docs/en/memory#agentsmd) and [Skills](https://code.claude.com/docs/en/skills).
 
-This repository includes a committed Cursor project rule ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and how this relates to Claude Code.
+## Credits
 
-## Key Insight
+- [Andrej Karpathy on coding with Claude](https://x.com/karpathy/status/2015883857489522876): surface assumptions, keep changes small, and give agents verifiable outcomes.
+- [Andrej Karpathy on understanding model output](https://x.com/karpathy/status/2105819303471976479): choose the clearest format for the evidence.
+- [Multica's Karpathy Guidelines](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md): the four-principle structure and the short, example-driven format.
 
-From Andrej:
-
-> "LLMs are exceptionally good at looping until they meet specific goals... Don't tell it what to do, give it success criteria and watch it go."
-
-The "Goal-Driven Execution" principle captures this: transform imperative instructions into declarative goals with verification loops.
-
-## How to Know It's Working
-
-These guidelines are working if you see:
-
-- **Fewer unnecessary changes in diffs** — Only requested changes appear
-- **Fewer rewrites due to overcomplication** — Code is simple the first time
-- **Clarifying questions come before implementation** — Not after mistakes
-- **Clean, minimal PRs** — No drive-by refactoring or "improvements"
-
-## Customization
-
-These guidelines are designed to be merged with project-specific instructions. Add them to your existing `CLAUDE.md` or create a new one.
-
-For project-specific rules, add sections like:
-
-```markdown
-## Project-Specific Guidelines
-
-- Use TypeScript strict mode
-- All API endpoints must have tests
-- Follow the existing error handling patterns in `src/utils/errors.ts`
-```
-
-## Tradeoff Note
-
-These guidelines bias toward **caution over speed**. For trivial tasks (simple typo fixes, obvious one-liners), use judgment — not every change needs the full rigor.
-
-The goal is reducing costly mistakes on non-trivial work, not slowing down simple tasks.
-
-## License
-
-MIT
+Independently maintained. Not an official project of Andrej Karpathy or Multica.
